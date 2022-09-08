@@ -20,20 +20,20 @@ block content
             div(class='col-sm-10')
 
                 each val in book_instance
+                    ul 
+                        li  
+                            if val.status == 'Available'
+                                p.text-success #{val.status}
+                            else if val.status == 'Maintenance'
+                                p.text-danger #{val.status}
+                            else 
+                                p.text-warning #{val.status}
 
-                    if val.status == 'Available'
-                        p.text-success #{val.status}
-                    else if val.status == 'Maintenance'
-                        p.text-danger #{val.status}
-                    else 
-                        p.text-warning #{val.status}
-
-                    p #[strong Imprint:] #{val.imprint}
-                    if val.status!='Available'
+                        p #[strong Imprint:] #{val.imprint}
+                            if val.status!='Available'
                         p #[strong Due back:] #{val.due_back}
-                    p #[strong Id:]
-                        a(href=val.url) #{val._id}
-                    p ___________________________________________________________
+                        p #[strong Id:]
+                            a(href=val.url) #{val._id}
                 
                 else
                     p There are no copies of this book in the library

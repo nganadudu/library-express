@@ -1,0 +1,13 @@
+extends layout 
+
+block content 
+    //- title below from author_list() in authorController.js
+    title= title 
+    ul  
+        each author in author_list 
+            li 
+                a(href=author.url, style="text-decoration:none") #{author.name} - 
+                    if (author.birth != null || author.death != null)
+                        span (#{author.birth} - #{author.death})
+        else    
+            li There are no authors.

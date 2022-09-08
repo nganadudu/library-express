@@ -1,3 +1,4 @@
+const { DateTime } = require('luxon');
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
@@ -29,7 +30,7 @@ authorSchema.virtual('name')
         let fullname = '';
         // set must have firstname and lastname
         if (this.first_name && this.family_name) {
-            fullname = `${this.family_name},${this.first_name}`;
+            fullname = `${this.family_name} ${this.first_name}`;
         }
         // else 
         if (!this.first_name || !this.family_name) {
@@ -41,6 +42,22 @@ authorSchema.virtual('name')
 
 authorSchema.virtual('url').get(function() {
     return `/catalog/author/${this._id}`;
+});
+
+authorSchema.virtual('birth')
+    .get(function() {
+        if (!this.date_of_birth) {
+            return 'unknown';
+        }
+        return DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED);
+});
+
+authorSchema.virtual('death')
+    .get(function() {
+        if (!this.date_of_death) {
+            return 'unknown';
+        }
+        return DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATE_MED);
 });
 
 module.exports = mongoose.model('Author', authorSchema);
